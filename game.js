@@ -13,17 +13,18 @@ var leftUpper = new PIXI.Sprite(PIXI.Texture.fromImage("assets/leftupper.png"));
 var rightUpper = new PIXI.Sprite(PIXI.Texture.fromImage("assets/rightupper.png"));
 var leftLower = new PIXI.Sprite(PIXI.Texture.fromImage("assets/leftlower.png"));
 var rightLower = new PIXI.Sprite(PIXI.Texture.fromImage("assets/rightlower.png"));
-
+var creditsScreen = new PIXI.Sprite(PIXI.Texture.fromImage("assets/creditsScreen.png"));
+var instructScreen = new PIXI.Sprite(PIXI.Texture.fromImage("assets/instructScreen.png"));
 
 //music loader
 PIXI.loader
     .add("prologue.mp3")
     .load(ready);
-var music;
+var backgroundSound;
 
 function ready()
 {
-  music = PIXI.audioManager.getAudio("assets/prologue.mp3");
+  backgroundSound = PIXI.audioManager.getAudio("assets/prologue.mp3");
 }
 
 start.position.x = 250;
@@ -34,6 +35,10 @@ instructs.position.x = 250;
 instructs.position.y = 350;
 mainMenu.position.x = 500;
 mainMenu.position.y = 525;
+instructScreen.position.x = 50;
+instructScreen.position.y = 100;
+
+
 
 // simon says positions
 leftUpper.position.x = 0;
@@ -46,21 +51,27 @@ rightLower.position.x = 300;
 rightLower.position.y = 300;
 
 
-
-stage.addChild(background);
-stage.addChild(start);
-stage.addChild(credits);
-stage.addChild(instructs);
-stage.addChild(mainMenu);
 stage.addChild(leftUpper);
 stage.addChild(rightUpper);
 stage.addChild(leftLower);
 stage.addChild(rightLower);
-leftUpper.visible = false;
-rightUpper.visible = false;
+stage.addChild(background);
+stage.addChild(creditsScreen);
+stage.addChild(instructScreen);
+stage.addChild(start);
+stage.addChild(credits);
+stage.addChild(instructs);
+stage.addChild(mainMenu);
+
+//simon says stage loader
+
+instructScreen.visible = false;
+creditsScreen.visible = false;
 mainMenu.visible = false;
 leftLower.visible = false;
 rightLower.visible = false;
+leftUpper.visible = false;
+rightUpper.visible = false;
 
 
 function mouseStart(e)
@@ -69,14 +80,12 @@ function mouseStart(e)
   credits.visible = false;
   instructs.visible = false;
   background.visible = false;
-  //simon says load in 
+  //simon says load in
   leftUpper.visible = true;
   rightUpper.visible = true;
   leftLower.visible = true;
   rightLower.visible = true;
-
-
-  music.play();
+  mainMenu.visible = true;
 
 }
 
@@ -85,6 +94,7 @@ function mouseCredits(e)
   start.visible = false;
   credits.visible = false;
   instructs.visible = false;
+  creditsScreen.visible = true;
   mainMenu.visible = true;
 
 }
@@ -95,14 +105,23 @@ function mouseInstructs(e)
   credits.visible = false;
   instructs.visible = false;
   mainMenu.visible = true;
+  instructScreen.visible = true;
 }
 
 function mouseMenu(e)
 {
+  background.visible = true;
   start.visible = true;
   credits.visible = true;
   instructs.visible = true;
   mainMenu.visible = false;
+  creditsScreen.visible = false;
+  instructScreen.visible = false;
+  leftLower.visible = false;
+  rightLower.visible = false;
+  leftUpper.visible = false;
+  rightUpper.visible = false;
+
 }
 
 start.interactive = true;
@@ -113,6 +132,19 @@ instructs.interactive = true;
 instructs.on('mousedown', mouseInstructs);
 mainMenu.interactive = true;
 mainMenu.on('mousedown', mouseMenu);
+
+//simon says interaction
+// leftUpper.interactive = true;
+// leftUpper.on('mousedown', mouseMenu);
+//
+// leftLower.interactive = true;
+// leftLower.on('mousedown', mouseMenu);
+//
+// rightUpper.interactive = true;
+// rightUpper.on('mousedown', mouseMenu);
+//
+// rightLower.interactive = true;
+// rightLower.on('mousedown', mouseMenu);
 
 
 
